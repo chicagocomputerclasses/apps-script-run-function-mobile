@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+    <style>
+      .btn {
+        font-size:2rem;
+        padding: 1rem 2rem;
+        background-color: red;
+        color:white;
+        font-weight:bold;
+        cursor:pointer;
+      }
+
+      .status {
+        max-width: 300px;
+        background-color:purple;
+        font-size:2rem;
+        color:white;
+        padding: 1rem 2rem;
+        margin-top: 1rem;
+      }
+
+      .hide {
+        display:none;
+      }
+    </style>
+  </head>
+  <body>
+    <button id="btn" class="btn">Run Script</button>
+    <div id="status" class="status hide"></div>
+    <script>
+      const btn = document.getElementById("btn")
+      const status = document.getElementById("status")
+
+      const statusUpdate = (statusText) => {
+        status.innerText = statusText
+        setTimeout(()=>{
+          status.classList.add("hide")
+          status.innerText = ""
+        },2000)
+      }
+
+      btn.addEventListener("click",() => {
+        status.innerText = "Running..."
+        status.classList.remove("hide")
+        google.script.run
+        .withSuccessHandler(data => {
+          statusUpdate("Done Running!")
+        })
+        .withFailureHandler(err => {
+          statusUpdate("Error Running the Script!")
+        })
+        .yourFunction()
+      })
+    </script>
+  </body>
+</html>
